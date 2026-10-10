@@ -1,0 +1,26 @@
+{
+  "name": "studyhub",
+  "version": "1.0.0",
+  "description": "Simple Express.js and MongoDB StudyHub project reused from the original E-Commerce project structure.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "express",
+    "mongodb",
+    "sessions"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^18.0.2",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "mongodb": "^6.21.0"
+  }
+}

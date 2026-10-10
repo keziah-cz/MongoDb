@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>StudyHub | Create Account</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+<main class="auth-page">
+
+    <section class="container small">
+
+        <div class="card auth-card">
+
+            <div class="auth-brand">
+
+                <a href="/register" class="brand">
+                    <span class="brand-mark">📓</span>
+                    Study<span>Hub</span>
+                </a>
+
+                <p>
+                    Create your account and start organizing your reviewers.
+                </p>
+
+            </div>
+
+            <% if (error) { %>
+
+                <div class="error">
+                    <%= error %>
+                </div>
+
+            <% } %>
+
+            <form method="POST" action="/register">
+
+                <label for="name">
+                    Full Name
+                </label>
+
+                <input
+                    id="name"
+                    name="name"
+                    value="<%= name %>"
+                    placeholder="Your name"
+                    required
+                >
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    value="<%= email %>"
+                    placeholder="you@example.com"
+                    required
+                >
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="At least 6 characters"
+                    required
+                >
+
+                <label for="confirmPassword">
+                    Confirm Password
+                </label>
+
+                <input
+                    id="confirmPassword"
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Repeat your password"
+                    required
+                >
+
+                <button type="submit">
+                    Create Account →
+                </button>
+
+            </form>
+
+            <p class="auth-footer">
+
+                Already have an account?
+
+                <a href="/login">
+                    Sign In
+                </a>
+
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>

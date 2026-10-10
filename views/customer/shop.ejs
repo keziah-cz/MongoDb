@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>StudyHub | Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="container navbar">
+
+        <a href="/shop" class="brand">
+
+            <span class="brand-mark">
+                📓
+            </span>
+
+            StudyHub
+
+        </a>
+
+        <nav class="nav-links">
+
+            <a
+                href="/shop"
+                class="active"
+            >
+                Home
+            </a>
+
+            <a href="#materials">
+                Materials
+            </a>
+
+            <a href="#add">
+                Add Material
+            </a>
+
+        </nav>
+
+        <div class="nav-actions">
+
+            <span class="muted">
+                Hi, <%= user.name %>
+            </span>
+
+            <form
+                method="POST"
+                action="/logout"
+            >
+
+                <button
+                    type="submit"
+                    class="secondary"
+                >
+                    Logout
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <% if (success) { %>
+
+    <div class="toast success" id="successToast">
+        <span>✓</span>
+        <%= success %>
+    </div>
+
+<% } %>
+
+
+    <!-- HERO -->
+
+    <section class="dashboard-hero">
+
+        <div class="container hero-grid">
+
+            <div>
+
+                <span class="eyebrow">
+                    Welcome to StudyHub
+                </span>
+
+                <h1>
+
+                    Study smarter,
+
+                    <br>
+
+                    <span>
+                        one at a time.
+                    </span>
+
+                </h1>
+
+                <p>
+
+                    Keep your reviewers, notes, and
+                    study materials organized in one
+                    simple place.
+
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a
+                        href="#add"
+                        class="btn btn-primary"
+                    >
+                        Add Study Material →
+                    </a>
+
+                    <a
+                        href="#materials"
+                        class="btn btn-outline"
+                    >
+                        View Materials
+                    </a>
+
+                </div>
+
+            </div>
+
+    </section>
+
+
+    <!-- ADD MATERIAL -->
+
+    <section
+        class="section"
+        id="add"
+    >
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        Add something new
+                    </span>
+
+                    <h2>
+                        Create Study Material
+                    </h2>
+
+                    <p>
+                        Save a reviewer or study note
+                        to MongoDB.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="card material-form">
+
+                <form
+                    method="POST"
+                    action="/materials/create"
+                    class="grid-form"
+                >
+
+                    <div>
+
+                        <label for="title">
+                            Material Title
+                        </label>
+
+                        <input
+                            id="title"
+                            name="title"
+                            placeholder="e.g. Networking Reviewer"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label for="subject">
+                            Subject
+                        </label>
+
+                        <input
+                            id="subject"
+                            name="subject"
+                            placeholder="e.g. Networking"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="full">
+
+                        <label for="description">
+                            Description
+                        </label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            placeholder="Write a short description..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="full">
+
+                        <button type="submit">
+                            Save Material →
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- MATERIALS -->
+
+    <section
+        class="section"
+        id="materials"
+    >
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        Your collection
+                    </span>
+
+                    <h2>
+                        Study Materials
+                    </h2>
+
+                    <p>
+                        Materials saved in MongoDB.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <% if (!materials.length) { %>
+
+                <div class="card">
+
+                    <h3>
+                        No study materials yet.
+                    </h3>
+
+                    <p class="muted">
+
+                        Add your first reviewer
+                        above and it will appear here.
+
+                    </p>
+
+                </div>
+
+            <% } else { %>
+
+
+                <div class="materials">
+
+                    <% materials.forEach(material => { %>
+
+                        <article class="card material">
+
+                            <span class="tag">
+                                <%= material.subject %>
+                            </span>
+
+                            <h3>
+                                <%= material.title %>
+                            </h3>
+
+                            <p>
+                                <%= material.description || 'No description added.' %>
+                            </p>
+
+                            <small>
+
+                                Created
+
+                                <%= new Date(
+                                    material.createdAt
+                                ).toLocaleString() %>
+
+                            </small>
+
+
+                            <details>
+
+                                <summary>
+                                    Edit Material
+                                </summary>
+
+                                <form
+                                    method="POST"
+                                    action="/materials/<%= material._id %>/update"
+                                >
+
+                                    <label>
+                                        Title
+                                    </label>
+
+                                    <input
+                                        name="title"
+                                        value="<%= material.title %>"
+                                        required
+                                    >
+
+                                    <label>
+                                        Subject
+                                    </label>
+
+                                    <input
+                                        name="subject"
+                                        value="<%= material.subject %>"
+                                        required
+                                    >
+
+                                    <label>
+                                        Description
+                                    </label>
+
+                                    <textarea name="description"><%= material.description || '' %></textarea>
+
+                                    <button type="submit">
+                                        Save Changes
+                                    </button>
+
+                                </form>
+
+                            </details>
+
+
+                            <form
+                                method="POST"
+                                action="/materials/<%= material._id %>/delete"
+                                onsubmit="return confirm('Delete this study material?')"
+                            >
+
+                                <button
+                                    class="danger"
+                                    type="submit"
+                                >
+                                    Delete Material
+                                </button>
+
+                            </form>
+
+                        </article>
+
+                    <% }) %>
+
+                </div>
+
+
+            <% } %>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="site-footer">
+
+    <div class="container footer-content">
+
+        <a
+            href="/shop"
+            class="brand"
+        >
+
+            <span class="brand-mark">
+                S
+            </span>
+
+            Study<span>Hub</span>
+
+        </a>
+
+        <p>
+            Simple study materials powered by
+            Express + MongoDB.
+        </p>
+
+    </div>
+
+</footer>
+
+</body>
+
+</html>
